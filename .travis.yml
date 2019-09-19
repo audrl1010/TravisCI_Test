@@ -4,20 +4,24 @@ osx_image: xcode11
 env:
   global:
     - WORKSPACE="TravisCI_Test.xcworkspace"
-    - IOS_SDK="iphonesimulator"
-    - IOS_DESTINATION="platform=iOS Simulator,name=iPhone XS,OS=13"
+    - SCHEME="TravisCI_Test"
+    - IOS_SDK="iphonesimulator13.0"
   matrix:
-    - SCHEME="TravisCI_Test"        SDK="$IOS_SDK"      ACTION="test"
+    - SDK="$IOS_SDK" DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=13.0"
 
 install:
-  - bundle install
-  - bundle exec pod repo update --silent
+  - bundle install --deployment
+  - bundle exec pod --version
+  - bundle exec pod repo update --verbose
   - bundle exec pod install
 
+before_script:
+  - set -o pipefail
+
 script:
-  - set -o pipefail && xcodebuild clean $ACTION 
+  - xcodebuild clean build test
   -workspace "$WORKSPACE" 
   -scheme "$SCHEME" 
   -sdk "$SDK" 
-  -destination "$IOS_DESTINATION" 
+  -destination "$DESTINATION" 
   -configuration Debug CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c
