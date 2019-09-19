@@ -1,5 +1,23 @@
-language: objective-c
+language: swift
 osx_image: xcode11
-xcode_project: TravisCI_Test.xcodeproj
-xcode_scheme: TravisCI_Test
-xcode_sdk: iphonesimulator13.0
+
+env:
+  global:
+    - WORKSPACE="TravisCI_Test.xcworkspace"
+    - IOS_SDK="iphonesimulator"
+    - IOS_DESTINATION="platform=iOS Simulator,name=iPhone XS,OS=13"
+  matrix:
+    - SCHEME="TravisCI_Test"        SDK="$IOS_SDK"      ACTION="test"
+
+install:
+  - bundle install
+  - bundle exec pod repo update --silent
+  - bundle exec pod install
+
+script:
+  - set -o pipefail && xcodebuild clean $ACTION 
+  -workspace "$WORKSPACE" 
+  -scheme "$SCHEME" 
+  -sdk "$SDK" 
+  -destination "$IOS_DESTINATION" 
+  -configuration Debug CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c
