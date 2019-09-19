@@ -57,8 +57,8 @@
 				8BFBDF33233379A400F7BCD0 /* AppDelegate.swift */,
 				8BFBDF35233379A400F7BCD0 /* ViewController.swift */,
 				8BFBDF37233379A400F7BCD0 /* Main.storyboard */,
-				8BFBDF3A233379A500F7BCD0 /* Assets.xcassets */,
 				8BFBDF3C233379A500F7BCD0 /* LaunchScreen.storyboard */,
+				8BFBDF3A233379A500F7BCD0 /* Assets.xcassets */,
 				8BFBDF3F233379A500F7BCD0 /* Info.plist */,
 			);
 			path = TravisCI_Test;
